@@ -1,13 +1,12 @@
 package co.edu.udec.taskmgr.usecases.Autor;
 
 import co.edu.udec.taskmgr.domain.entidades.Autor;
-import co.edu.udec.taskmgr.domain.puertos.IAutorRepository;
 import co.edu.udec.taskmgr.infrastructure.config.PersistenceManager;
 import co.edu.udec.taskmgr.infrastructure.config.SQLiteDatabaseInitializer;
 import co.edu.udec.taskmgr.infrastructure.repository.AutorRepositoryImpl;
 import org.junit.Before;
 import org.junit.Test;
-
+import co.edu.udec.taskmgr.domain.puertos.IAutorRepository;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.List;
@@ -16,7 +15,7 @@ import static org.junit.Assert.*;
 
 public class AutorRepositoryImplTest {
 
-    private IAutorRepository repo;
+  private IAutorRepository repo;
 
     @Before
     public void setUp() {
@@ -39,8 +38,7 @@ public class AutorRepositoryImplTest {
         Autor a = new Autor("Juana", "juana@correo.com", "Uni Cartagena", "Colombia",
                             "Fac. Ingeniería", "10 años", "PhD", "Premio nacional",
                             "IEEE", "Colab. UNESCO", "IA y educación");
-        repo.save(a);
-
+       
         List<Autor> lista = repo.findAll();
         assertEquals(1, lista.size());
 
