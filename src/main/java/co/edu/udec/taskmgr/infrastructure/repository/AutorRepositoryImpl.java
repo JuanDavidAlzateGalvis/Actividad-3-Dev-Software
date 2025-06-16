@@ -16,7 +16,7 @@ public class AutorRepositoryImpl implements IAutorRepository {
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = PersistenceManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, autor.getNombre());
             stmt.setString(2, autor.getCorreo());
@@ -32,10 +32,17 @@ public class AutorRepositoryImpl implements IAutorRepository {
 
             stmt.executeUpdate();
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Error al guardar autor", e);
-        }
+            // Obtener ID generado
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    autor.setId(generatedKeys.getInt(1));
+                }
+            }
+
+    } catch (SQLException e) {
+        throw new RuntimeException("Error al guardar autor", e);
     }
+}
 
     @Override
     public Autor findById(int id) {
